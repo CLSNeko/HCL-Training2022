@@ -1,8 +1,10 @@
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Map.Entry;
 
 public class Employee {
@@ -73,6 +75,9 @@ public class Employee {
 		public void setSalary(int salary){
 				this.salary = salary;
 		}
+		public String toString(){
+				return "\nEmployeeID: " + id + "\nName: " + name + "\nAge: " + age + "\nGender: " + gender + "\nDepartment: " + dept + "\nSalary: " + salary + "\nYear Joined: " + yearOfJoining;
+		}
 
 		public static void main(String[] args){
 				ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -86,5 +91,44 @@ public class Employee {
 				employees.add(new Employee(7, "Garrett Collins", 39, "Male", "Maintenance", 2015, 56000));
 				employees.add(new Employee(8, "Kaiden Hughes", 22, "Male", "Development", 2022, 55000));
 				employees.add(new Employee(9, "Holden Davis", 32, "Male", "Human Resources", 2021, 62000));
+
+				// 1) How many male and female employees are there in this organization?
+				question1(employees);
+
+				// 2) Find out Average age of male and female emps?
+				question2(employees);
+
+				// 3) Find the highest paid employee in this org?
+				question3(employees);
+
+				// 4) List all the names of employee who has joined after 2015?
+				question4(employees);
+
+				// 5) Find out the senior most employee in this org?
+
+				// 6) Count the number of emps in each department?
+				
+				// 7) Find male and female employees are in Maintenance department?
+				
+				// 8) Find the average salary of male and female employees?
+				
+				// 9) Differentiate the employees who are younger or equal to 30 yrs from those employees who are older than 25 years
+				
+				// 10) List down the names of all employees in each department?
+		}
+		public static void question1(ArrayList<Employee> employees){
+				Map<String, Long> mfEmployees = employees.stream().collect(Collectors.groupingBy(Employee::getGender, Collectors.counting()));
+				System.out.println("Number Of Male and Female Employees: " + mfEmployees);
+		}
+		public static void question2(ArrayList<Employee> employees){
+				Map<String, Double> avgAgeByGender = employees.stream().collect(Collectors.groupingBy(Employee::getGender, Collectors.averagingInt(Employee::getAge)));
+				System.out.println("Average Age by Male and Female: " + avgAgeByGender);
+		}
+		public static void question3(ArrayList<Employee> employees){
+				Optional<Employee> largestSalary = employees.stream().collect(Collectors.maxBy(Comparator.comparingInt(Employee::getSalary)));
+				Employee largestSalaryEmp = largestSalary.get();
+				System.out.println("Employee with the highest salary: " + largestSalaryEmp);
+		}
+		public static void question4(ArrayList<Employee> employees){
 		}
 }
